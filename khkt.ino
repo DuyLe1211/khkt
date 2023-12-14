@@ -9,10 +9,6 @@
 #define LedPin 16         // pin d0 as toggle pin
 #define FIREBASE_HOST "khkt-847e4-default-rtdb.asia-southeast1.firebasedatabase.app" // change here
 #define FIREBASE_AUTH "mBe3LBIRDglaSyigKOmuOSakvPZDJPjza8iNBw6d"  // your private key
-#define USER_EMAIL "leminhduy12112007@gmail.com"
-#define USER_PASSWORD "lmD@12112007"
-FirebaseAuth auth;
-FirebaseConfig config;
 FirebaseData firebaseData;
 
 void setup ()
@@ -29,12 +25,6 @@ void setup ()
   Serial.println();
   Serial.print("connected: ") ;
   Serial.println(WiFi.localIP());
-
-  config.host = FIREBASE_HOST;
-  config.api_key = FIREBASE_AUTH;
-
-  auth.user.email = USER_EMAIL;
-  auth.user.password = USER_PASSWORD;
   
   Firebase.begin(FIREBASE_HOST, FIREBASE_AUTH);
   Firebase.reconnectWiFi(true);     
@@ -45,9 +35,12 @@ void loop ()
   {
     String person = firebaseData.stringData();
     if (person.toInt() == 0) {
-      digitalWrite(LedPin, LOW);
+      analogWrite(LedPin, 0);
+    } else if (person.toInt() == 1) {
+      analogWrite(LedPin, 127);
+      delay(5000);
     } else {
-      digitalWrite(LedPin, HIGH);
+      analogWrite(LedPin, 254);
       delay(5000);
     }
   }else{
