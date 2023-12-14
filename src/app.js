@@ -3,8 +3,6 @@ import {
     FilesetResolver
 } from 'https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.2'
 
-const demosSection = document.getElementById('demos')
-
 let objectDetector
 let runningMode = 'IMAGE'
 
@@ -18,10 +16,10 @@ const initializeObjectDetector = async () => {
             modelAssetPath: `https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite`,
             delegate: 'GPU'
         },
-        scoreThreshold: 0.5,
-        runningMode: runningMode
+        scoreThreshold: 0.7,
+        runningMode: runningMode,
+        category_allow_list: ['person']
     })
-    demosSection.classList.remove('invisible')
 }
 initializeObjectDetector()
 
@@ -54,7 +52,8 @@ async function enableCam(event) {
     }
 
     // Hide the button.
-    enableWebcamButton.classList.add('removed')
+    enableWebcamButton.classList.add('invisible')
+    video.classList.remove('invisible')
 
     // getUsermedia parameters
     const constraints = {
@@ -110,7 +109,22 @@ let firebaseRef = database.ref('person')
 
 firebaseRef.set('0')
 
+let personData = document.querySelector('.person__data')
+let statusData = document.querySelector('.status__data')
+
+statusData.innerHTML = 'Kết nối thành công'
+statusData.classList.add('success')
+
+let data = []
+
 function controlVideoDetections(result) {
-    console.log(result.detections)
-    firebaseRef.set(`${result.detections.length}`)
+    data = []
+    for (let i = 0; i < result.detections.length; i++) {
+        if (result.detections[i].categories[0].categoryName == 'person')
+            data.push(result.detections[i])
+    }
+
+    console.log(data)
+    firebaseRef.set(`${data.length}`)
+    personData.innerHTML = `${data.length}`
 }

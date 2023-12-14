@@ -1,0 +1,31 @@
+html,
+* {
+    font-family: 'Josefin Sans', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(
+        107deg,
+        rgba(239, 234, 255, 0.42) 8.39%,
+        rgba(181, 146, 255, 0.5) 30.52%,
+        rgba(143, 106, 221, 0.22) 72.73%
+    );
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+    padding: 50px;
+}
+
+.invisible {
+    display: none;
+}
+
+.success {
+    color: #6adb6b;
+}
