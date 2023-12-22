@@ -16,7 +16,7 @@ const initializeObjectDetector = async () => {
             modelAssetPath: `https://storage.googleapis.com/mediapipe-models/object_detector/efficientdet_lite0/float16/1/efficientdet_lite0.tflite`,
             delegate: 'GPU'
         },
-        scoreThreshold: 0.7,
+        scoreThreshold: 0.6,
         runningMode: runningMode,
         category_allow_list: ['person']
     })
